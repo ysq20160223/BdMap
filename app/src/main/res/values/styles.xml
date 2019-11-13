@@ -1,0 +1,64 @@
+<resources>
+
+    <!-- 这个是给5.0使用的Style，其实完全可以在源代码中加判断这样就不需要多个style文件-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- 最顶部的状态栏 -->
+        <item name="colorPrimaryDark">#000000</item>
+        <!--<color name="Q_Blue">#12b7f5</color>-->
+
+        <!-- ActionBar 字体的颜色 -->
+        <!--<item name="android:textColorPrimary">#0191ff</item>-->
+
+        <!-- ActionBar 颜色 -->
+        <!--<item name="colorPrimary">#ff0000</item>-->
+
+        <!--  -->
+        <!--<item name="colorAccent">#0000ff</item>-->
+        <!--Customize your theme here. -->
+    </style>
+
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Dialog Util -->
+    <style name="DialogUtil" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+    </style>
+
+
+    <style name="DlgFrag" parent="@android:style/Theme.Dialog">
+        <item name="android:padding">10dp</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+    </style>
+
+    <!--  Cluster  -->
+    <style name="ClusterIcon.TextAppearance" parent="android:TextAppearance">
+        <item name="android:textColor">#FFffffff</item>
+        <item name="android:textSize">13sp</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="Bubble.TextAppearance.Dark" parent="android:TextAppearance.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff7f7f7f</item>
+    </style>
+    <style name="Bubble.TextAppearance.Light" parent="Bubble.TextAppearance.Dark">
+        <item name="android:textColor">#FFffffff</item>
+    </style>
+
+</resources>

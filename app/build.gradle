@@ -1,0 +1,143 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'java'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-android-extensions'
+
+apply from: file("../../Android_Lib/lib_sdk/config.gradle")
+apply plugin: 'kotlin-android-extensions'
+
+
+android {
+    compileSdkVersion android.compileSdkVersion
+    buildToolsVersion android.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.as_160213_bd_map"
+
+        minSdkVersion android.minSdkVersion
+        compileSdkVersion android.compileSdkVersion
+
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled true
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
+        ndk {
+            moduleName "JniUtil"
+            ldLibs "log", "z", "m"
+//            abiFilters "armeabi" // , "arm64-v8a", "armeabi-v7a", "mips", "mips64", "x86", "x86_64"
+//            abiFilters 'arm64-v8a','armeabi-v7a','x86','x86_64'
+            abiFilters 'arm64-v8a','armeabi-v7a'
+        }
+
+        // 应用添加
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+
+        // 使用Cmake工具
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+                //生成多个版本的so文件
+//                abiFilters 'arm64-v8a','armeabi-v7a','x86','x86_64'
+                abiFilters 'arm64-v8a','armeabi-v7a'
+            }
+        }
+
+    }
+
+    configurations {
+        all*.exclude  module: 'DefaultItemAnimator$2'  //去除重复依赖库
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    // 忽略警告
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+
+
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    // 配置keystore签名
+    signingConfigs {
+        debug {
+            storeFile file("android_bd_map.jks")
+            storePassword "123456"
+            keyAlias "android_bd_map"
+            keyPassword "123456"
+        }
+
+        release {
+            storeFile file("android_bd_map.jks")
+            storePassword "123456"
+            keyAlias "android_bd_map"
+            keyPassword "123456"
+        }
+    }
+
+
+    // 1
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    // 配置CMakeLists.txt路径
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"  // 设置所要编写的c源码位置，以及编译后so文件的名字
+        }
+    }
+
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains' , module:'annotations'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+
+    api depsLibs.butterknife
+    kapt "com.jakewharton:butterknife-compiler:${depsVersion.butterknifecompiler}"
+
+    implementation files('libs/BaiduLBS_Android.jar')
+//    implementation files('libs/httpmime-4.1.2.jar')
+
+    implementation project(':onsdk_all')
+    implementation project(':NaviTts')
+
+    api project(':lib_sdk')
+    api project(':lib_common_ui')
+
+}

@@ -1,0 +1,78 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
+
+    <!-- 地图 -->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mv_map_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="visible" />
+
+    <!-- 上 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <!-- 左上 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bd_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="invisible" />
+
+    <!-- 右上 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_right_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        android:visibility="invisible" />
+
+    <!-- 右下 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bd_zoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:orientation="vertical" />
+
+    <!-- 左下 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bd_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical" />
+
+    <!-- 下 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical" />
+
+    <!-- 右中 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bd_draw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:orientation="vertical" />
+
+    <!-- 左中 -->
+    <LinearLayout
+        android:id="@+id/layout_map_activity_bd_cluster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:orientation="vertical" />
+
+</FrameLayout>

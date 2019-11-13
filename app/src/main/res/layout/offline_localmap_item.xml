@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#f7f7f7"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/offline_localMap_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:padding="3dp"
+        android:text="已下载城市 " />
+
+    <TextView
+        android:id="@+id/offline_localMap_update"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="***"
+        android:textColor="#FF0000" />
+
+    <TextView
+        android:id="@+id/offline_localMap_ratio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="100%" />
+
+    <Button
+        android:id="@+id/offline_localMap_remove"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="删除" />
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_QueryContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f04e5a6b"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <!-- android:background="@drawable/bg_map_bottom" -->
+
+
+    <TextView
+        android:id="@+id/tv_QueryContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="Content"
+        android:textColor="#fff5eb"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

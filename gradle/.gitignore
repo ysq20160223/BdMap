@@ -1,0 +1,6 @@
+/build
+app.iml
+class_files.txt
+CMakeLists.txt
+proguard*
+._.DS_Store

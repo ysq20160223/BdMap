@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_alpha_mode">#66666666</color>
+    <color name="bg_alpha_local">#afffffff</color>
+    <color name="bg_alpha_zoom">#afffffff</color>
+
+    <!--  -->
+    <color name="bg_province_item_press">#fead17</color>
+    <color name="bg_province_item_normal">#fff9f1</color>
+
+    <color name="bg_city_item_press">#febe26</color>
+    <color name="bg_city_item_normal">#fffdfa</color>
+</resources>
