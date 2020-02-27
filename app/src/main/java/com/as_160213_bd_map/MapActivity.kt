@@ -11,6 +11,7 @@ import com.lib_common_ui.base.BaseActivity
 import com.lib_sdk.utils.Logcat
 import fragment.*
 import utils.FragmentUtil
+import utils.JniUtil
 
 /*
     // 5C 113.94734,22.529459
@@ -67,12 +68,6 @@ class MapActivity : BaseActivity() {
     var bdDrawFrag: BDDrawFrag? = null
 
 
-    companion object {
-        init {
-//            System.loadLibrary("JniUtil")
-        }
-    }
-
     override fun getContentViewId(): Int {
         return R.layout.activity_main
     }
@@ -82,7 +77,7 @@ class MapActivity : BaseActivity() {
         initData()
         initEvent()
 
-        //        Logcat.Companion.d("JniUtil: " + JniUtil.getStringFromNDK());
+        Logcat.d("JniUtil: " + JniUtil.getStringFromNDK())
     }
 
     private fun initEvent() {

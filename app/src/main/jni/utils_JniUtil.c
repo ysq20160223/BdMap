@@ -1,6 +1,8 @@
 //
-// Created by Administrator on 2017/4/1.
+// Created by Apple on 2020-02-26.
 //
+
+#import "utils_JniUtil.h"
 
 // NOTE : #include <jni.h> 不能换行
 #include <jni.h>
@@ -21,8 +23,3 @@ jstring Java_utils_JniUtil_getStringFromNDK(JNIEnv *env, jobject obj) {
     return (*env)->NewStringUTF(env, "get String From NDK");
 
 }
-
-
-
-
-
