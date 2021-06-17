@@ -16,8 +16,8 @@ import com.baidu.mapapi.SDKInitializer
 import com.baidu.mapapi.map.offline.MKOLUpdateElement
 import com.baidu.mapapi.map.offline.MKOfflineMap
 import com.lib_common_ui.base.BaseActivity
-import com.lib_sdk.utils.Logcat
-import com.lib_sdk.utils.ToastUtil
+import com.lib_sdk.utils.XLog
+import lib.toast.XToast
 import utils.AnimatedExpandableListView
 import java.util.*
 
@@ -130,7 +130,7 @@ class OfflineActivity : BaseActivity() {
         clickDownloadManager()
         for ((index, obj) in mLocalMapList.withIndex()) {
             if (cityId == mLocalMapList[index].cityID) {
-                ToastUtil.text(getActivity(), "已下载或正在下载 - $obj")
+                XToast.show("已下载或正在下载 - $obj")
                 return
             }
         }
@@ -175,7 +175,7 @@ class OfflineActivity : BaseActivity() {
 
                 MKOfflineMap.TYPE_NEW_OFFLINE ->
                     // 有新离线地图安装
-                    Logcat.d(String.format(Locale.getDefault(), "add offlineMap num:%d", state))
+                    XLog.d(String.format(Locale.getDefault(), "add offlineMap num:%d", state))
 
                 MKOfflineMap.TYPE_VER_UPDATE -> {
                 }

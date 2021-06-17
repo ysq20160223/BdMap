@@ -8,7 +8,7 @@ import butterknife.BindView
 import com.baidu.mapapi.map.BaiduMap
 import com.baidu.mapapi.map.MapView
 import com.lib_common_ui.base.BaseActivity
-import com.lib_sdk.utils.Logcat
+import com.lib_sdk.utils.XLog
 import fragment.*
 import utils.FragmentUtil
 import utils.JniUtil
@@ -46,7 +46,7 @@ class MapActivity : BaseActivity() {
     /**
      * Left Top
      */
-//    var bdNavFrag: BDNavFrag? = null
+    var bdNavFrag: BDNavFrag? = null
 
     var rightTopFrag: BDTypeTrafficFrag? = null
 
@@ -77,7 +77,7 @@ class MapActivity : BaseActivity() {
         initData()
         initEvent()
 
-        Logcat.d("JniUtil: " + JniUtil.getStringFromNDK())
+        XLog.d("JniUtil: " + JniUtil.getStringFromNDK())
     }
 
     private fun initEvent() {
@@ -114,8 +114,8 @@ class MapActivity : BaseActivity() {
         topFrag = BDTopFrag()
         FragmentUtil.add(supportFragmentManager, R.id.layout_map_activity_top, topFrag)
 
-//        bdNavFrag = BDNavFrag()
-//        FragmentUtil.add(supportFragmentManager, R.id.layout_map_activity_bd_nav, bdNavFrag)
+        bdNavFrag = BDNavFrag()
+        FragmentUtil.add(supportFragmentManager, R.id.layout_map_activity_bd_nav, bdNavFrag)
 
         rightTopFrag = BDTypeTrafficFrag()
         FragmentUtil.add(supportFragmentManager, R.id.layout_map_activity_right_top, rightTopFrag)

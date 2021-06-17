@@ -1,7 +1,6 @@
 package utils;
 
 
-
 import android.content.Context;
 import android.widget.Toast;
 
@@ -11,7 +10,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-import com.lib_sdk.utils.Logcat;
+import com.lib_sdk.utils.XLog;
 
 // Created by Administrator on 2016/11/11.
 
@@ -42,7 +41,7 @@ public class BDLocalListener implements BDLocationListener {
         localLng = bdLocation.getLongitude();
         localLatLng = new LatLng(localLat, localLng);
 
-        Logcat.Companion.d("city: " + bdLocation.getCity() + ", street: " + bdLocation.getStreet());
+        XLog.INSTANCE.d("city: " + bdLocation.getCity() + ", street: " + bdLocation.getStreet());
 
         MyLocationData data = new MyLocationData.Builder().accuracy(bdLocation.getRadius())
                 .direction(localOrient).longitude(localLng).latitude(localLat).build();

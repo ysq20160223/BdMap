@@ -12,8 +12,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Projection;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
-
-import com.lib_sdk.utils.Logcat;
+import com.lib_sdk.utils.XLog;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -96,7 +95,7 @@ public class BDMapUtil {
         Projection projection = bdMap.getProjection();
 
         if (mapStatus == null || projection == null) {
-            Logcat.Companion.e("mapStatus:" + mapStatus + ", projection:" + projection);
+            XLog.INSTANCE.e("mapStatus:" + mapStatus + ", projection:" + projection);
             return;
         }
 

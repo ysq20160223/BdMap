@@ -8,7 +8,7 @@ import com.as_160213_bd_map.R;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.lib_common_ui.base.BaseLazyFragment;
-import com.lib_sdk.utils.ToastUtil;
+import com.lib_sdk.utils.XLog;
 
 
 import butterknife.BindView;
@@ -48,9 +48,9 @@ public class BDTypeTrafficFrag extends BaseLazyFragment {
 
             case R.id.iv_mapTraffic:
                 if (mBdMap.isTrafficEnabled()) {
-                    ToastUtil.Companion.text(mActivity, "关闭实时路况");
+                    XLog.INSTANCE.d("关闭实时路况");
                 } else {
-                    ToastUtil.Companion.text(mActivity, "开启实时路况");
+                    XLog.INSTANCE.d("开启实时路况");
                 }
                 mBdMap.setTrafficEnabled(!mBdMap.isTrafficEnabled());
                 mIvMapTraffic.setSelected(mBdMap.isTrafficEnabled());
@@ -60,7 +60,7 @@ public class BDTypeTrafficFrag extends BaseLazyFragment {
 //                ((MapActivity) getActivity()).getBdNavFrag().getRouteList().clear();
 //                mBdMap.clear(); //
 //                mMapActivity.getBdDrawFrag().clearItems();
-//                ToastUtil.Companion.text(mActivity, "清空图层数据");
+//                XLog.INSTANCE.d("清空图层数据");
                 break;
         }
     }

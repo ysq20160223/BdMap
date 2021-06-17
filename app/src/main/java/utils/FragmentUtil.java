@@ -1,12 +1,11 @@
 package utils;
 
 
-
-// Created by Administrator on 2016/9/28.
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+// Created by Administrator on 2016/9/28.
 
 @SuppressWarnings("unused")
 public class FragmentUtil {

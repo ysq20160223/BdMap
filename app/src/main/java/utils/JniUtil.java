@@ -3,10 +3,6 @@ package utils;
 // Created by root on 2017-04-06.
 
 
-
-
-import com.lib_sdk.utils.Logcat;
-
 //
 /*
     解决无法执行ndk -> toolchains -> llvm -> prebuilt -> darwin-x86_64 -> bin - clang
@@ -20,13 +16,15 @@ import com.lib_sdk.utils.Logcat;
 
 // /Users/Apple/Library/Android/sdk
 
+import com.lib_sdk.utils.XLog;
+
 public class JniUtil {
 
     static {
         try {
             System.loadLibrary("JniUtil");
         } catch (Exception e) {
-            Logcat.Companion.d(e);
+            XLog.INSTANCE.d(e);
         }
     }
 

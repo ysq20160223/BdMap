@@ -1,7 +1,5 @@
 package base;
 
-// Created by Administrator on 2017/4/24.
-
 import android.content.Context;
 import android.view.View;
 

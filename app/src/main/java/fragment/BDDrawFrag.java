@@ -17,7 +17,7 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.lib_common_ui.base.BaseLazyFragment;
-import com.lib_sdk.utils.ToastUtil;
+import com.lib_sdk.utils.XLog;
 
 
 import java.util.ArrayList;
@@ -200,7 +200,7 @@ public class BDDrawFrag extends BaseLazyFragment {
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyClusterItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyClusterItem> cluster) {
-                ToastUtil.Companion.text(mActivity, "getSize : " + cluster.getSize());
+                XLog.INSTANCE.d("getSize : " + cluster.getSize());
                 return false;
             }
         });
@@ -208,7 +208,7 @@ public class BDDrawFrag extends BaseLazyFragment {
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyClusterItem>() {
             @Override
             public boolean onClusterItemClick(MyClusterItem item) {
-                ToastUtil.Companion.text(mActivity, item.getPosition() + "");
+                XLog.INSTANCE.d(item.getPosition() + "");
                 return false;
             }
         });

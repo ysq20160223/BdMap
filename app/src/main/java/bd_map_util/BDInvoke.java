@@ -1,6 +1,6 @@
 package bd_map_util;
 
-// Created by Administrator on 2016/12/8.
+
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,8 +10,9 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.navi.BaiduMapNavigation;
 import com.baidu.mapapi.navi.NaviParaOption;
 import com.baidu.mapapi.utils.OpenClientUtil;
-import com.lib_sdk.utils.Logcat;
+import com.lib_sdk.utils.XLog;
 
+// Created by Administrator on 2016/12/8.
 
 public class BDInvoke {
 
@@ -39,7 +40,7 @@ public class BDInvoke {
 
         } catch (Exception e) {
             showDialog(ctx);
-            Logcat.Companion.d(e.toString());
+            XLog.INSTANCE.d(e.toString());
         }
     }
 

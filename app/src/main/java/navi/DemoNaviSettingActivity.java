@@ -13,7 +13,7 @@ import com.as_160213_bd_map.R;
 import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
 import com.baidu.navisdk.comapi.routeguide.RouteGuideParams;
 import com.baidu.navisdk.comapi.setting.SettingParams;
-import com.lib_sdk.utils.Logcat;
+import com.lib_sdk.utils.XLog;
 
 
 public class DemoNaviSettingActivity extends Activity implements View.OnClickListener {
@@ -168,7 +168,7 @@ public class DemoNaviSettingActivity extends Activity implements View.OnClickLis
                 mCheckboxs[index].setImageResource(R.drawable.set_checkout_icon);
             }
         } catch (Exception e) {
-            Logcat.Companion.e(e.toString());
+            XLog.INSTANCE.e(e.toString());
         }
     }
 

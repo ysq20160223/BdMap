@@ -3,8 +3,7 @@ package utils;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
-import com.lib_sdk.utils.Logcat;
-
+import com.lib_sdk.utils.XLog;
 
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class TraceRunnable implements Runnable {
                         }
                     }
                 } catch (Exception e) {
-                    Logcat.Companion.d("play Trace Exception: " + e.toString());
+                    XLog.INSTANCE.d("play Trace Exception: " + e.toString());
                 }
             }
         }

@@ -5,7 +5,7 @@ import android.view.View;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
-import com.lib_sdk.utils.Logcat;
+import com.lib_sdk.utils.XLog;
 
 
 // Created by Administrator on 2016/11/12.
@@ -41,7 +41,7 @@ public class BDMapConfig {
     public static void showBDMapChild(MapView mapView) {
         // 0:主视图,  1:logo,  2:缩放图标,  3:比例尺 (需等待视图加载后查询)
         for (int i = 0; i < mapView.getChildCount(); i++) {
-            Logcat.Companion.d("Child " + i + ":" + mapView.getChildAt(i).toString());
+            XLog.INSTANCE.d("Child " + i + ":" + mapView.getChildAt(i).toString());
 
         }
     }

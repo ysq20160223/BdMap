@@ -1,9 +1,5 @@
 package holder;
 
-/*
- * Created by Administrator on 2017/4/24.
- */
-
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -11,14 +7,13 @@ import android.widget.TextView;
 import com.as_160213_bd_map.R;
 import com.baidu.mapapi.map.offline.MKOLUpdateElement;
 import com.baidu.mapapi.map.offline.MKOfflineMap;
-import com.lib_sdk.utils.ToastUtil;
-
 
 import adp.LocalMapAdp;
 import base.BaseHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lib.toast.XToast;
 
 
 public class LocalMapHolder extends BaseHolder {
@@ -65,7 +60,7 @@ public class LocalMapHolder extends BaseHolder {
                     if (callBack != null) {
                         callBack.update();
                     }
-                    ToastUtil.Companion.text(ctx, "Delete Success");
+                    XToast.INSTANCE.show("Delete Success");
                 }
                 break;
         }

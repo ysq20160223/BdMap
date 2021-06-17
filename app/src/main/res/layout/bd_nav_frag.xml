@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shade_rect"
-        android:src="@drawable/bg_map_nav" />
+        android:src="@drawable/bg_map_nav"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/iv_my_geo"

@@ -4,4 +4,4 @@ class_files.txt
 
 proguard*
 ._.DS_Store
-/.cxx/
+.cxx/*

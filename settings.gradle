@@ -7,3 +7,7 @@ project(":lib_sdk").projectDir = new File("../Android_Lib/lib_sdk")
 
 include(":lib_common_ui")
 project(":lib_common_ui").projectDir = new File("../Android_Lib/lib_common_ui")
+
+include(":lib_toast")
+project(":lib_toast").projectDir = new File("../Android_Lib/lib_toast")
+
