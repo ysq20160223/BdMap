@@ -24,7 +24,7 @@ public class JniUtil {
         try {
             System.loadLibrary("JniUtil");
         } catch (Exception e) {
-            XLog.INSTANCE.d(e);
+            XLog.d(e);
         }
     }
 

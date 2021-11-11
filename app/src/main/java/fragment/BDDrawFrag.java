@@ -200,7 +200,7 @@ public class BDDrawFrag extends BaseLazyFragment {
         mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyClusterItem>() {
             @Override
             public boolean onClusterClick(Cluster<MyClusterItem> cluster) {
-                XLog.INSTANCE.d("getSize : " + cluster.getSize());
+                XLog.d("getSize : " + cluster.getSize());
                 return false;
             }
         });
@@ -208,7 +208,7 @@ public class BDDrawFrag extends BaseLazyFragment {
         mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MyClusterItem>() {
             @Override
             public boolean onClusterItemClick(MyClusterItem item) {
-                XLog.INSTANCE.d(item.getPosition() + "");
+                XLog.d(item.getPosition() + "");
                 return false;
             }
         });

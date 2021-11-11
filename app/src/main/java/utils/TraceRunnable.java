@@ -78,7 +78,7 @@ public class TraceRunnable implements Runnable {
                         }
                     }
                 } catch (Exception e) {
-                    XLog.INSTANCE.d("play Trace Exception: " + e.toString());
+                    XLog.d("play Trace Exception: " + e.toString());
                 }
             }
         }

@@ -108,7 +108,7 @@ public class BDNavFrag extends BaseLazyFragment {
         if (initDirs()) { // 导航部分
 //            initNavi();
         } else {
-            XLog.INSTANCE.d("External Storage Not Exist");
+            XLog.d("External Storage Not Exist");
         }
     }
 
@@ -135,7 +135,7 @@ public class BDNavFrag extends BaseLazyFragment {
 
 //                        invokeNav(lon, lat); // 调用外部导航
                 } else {
-                    XLog.INSTANCE.d("长按地图确定目的地");
+                    XLog.d("长按地图确定目的地");
                 }
 
 
@@ -179,7 +179,7 @@ public class BDNavFrag extends BaseLazyFragment {
                             result = "key校验失败, " + msg;
                         }
                         Toast.makeText(mActivity, result, Toast.LENGTH_LONG).show();
-                        XLog.INSTANCE.d(result);
+                        XLog.d(result);
                     }
 
                     @Override
@@ -223,17 +223,17 @@ public class BDNavFrag extends BaseLazyFragment {
                 new IBNTTSManager.IOnTTSPlayStateChangedListener() {
                     @Override
                     public void onPlayStart() {
-                        XLog.INSTANCE.d("onPlayStart");
+                        XLog.d("onPlayStart");
                     }
 
                     @Override
                     public void onPlayEnd(String speechId) {
-                        XLog.INSTANCE.d("speechId: " + speechId);
+                        XLog.d("speechId: " + speechId);
                     }
 
                     @Override
                     public void onPlayError(int code, String message) {
-                        XLog.INSTANCE.d("code: " + code + ", message: " + message);
+                        XLog.d("code: " + code + ", message: " + message);
                     }
                 }
         );
@@ -243,7 +243,7 @@ public class BDNavFrag extends BaseLazyFragment {
                 new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(Message msg) {
-                        XLog.INSTANCE.d("msg: " + msg);
+                        XLog.d("msg: " + msg);
                     }
                 }
         );
@@ -306,24 +306,24 @@ public class BDNavFrag extends BaseLazyFragment {
                         switch (msg.what) {
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
                                 Toast.makeText(mActivity, "算路开始", Toast.LENGTH_SHORT).show();
-                                XLog.INSTANCE.d("算路开始");
+                                XLog.d("算路开始");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
                                 Toast.makeText(mActivity, "算路成功", Toast.LENGTH_SHORT).show();
-                                XLog.INSTANCE.d("算路成功");
+                                XLog.d("算路成功");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
                                 Toast.makeText(mActivity, "算路失败", Toast.LENGTH_SHORT)
                                         .show();
-                                XLog.INSTANCE.d("算路失败");
+                                XLog.d("算路失败");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
                                 Toast.makeText(mActivity, "算路成功准备进入导航", Toast.LENGTH_SHORT)
                                         .show();
-                                XLog.INSTANCE.d("算路成功准备进入导航");
+                                XLog.d("算路成功准备进入导航");
 
                                 Intent intent = new Intent(getActivity(),
                                         DemoGuideActivity.class);
@@ -349,7 +349,7 @@ public class BDNavFrag extends BaseLazyFragment {
             mBdMap.clear();
 
             if (geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-                XLog.INSTANCE.d("No Find");
+                XLog.d("No Find");
                 return;
             }
 
@@ -407,14 +407,14 @@ public class BDNavFrag extends BaseLazyFragment {
                     Bundle bundle = new Bundle();
                     bundle.putInt("position", mRouteList.size());
                     BDMapAdd.overlay(mBdMap, latLng, bmDes, bundle, true, false, 0.5f, 0.1f);
-                    XLog.INSTANCE.d("设置 " + (mRouteList.size() + 1) + " 成功");
+                    XLog.d("设置 " + (mRouteList.size() + 1) + " 成功");
                     XToast.INSTANCE.show("" + latLng);
 
 
                     mRouteList.add(new BNRoutePlanNode(latLng.longitude, latLng.latitude, "", "",
                             BNRoutePlanNode.CoordinateType.BD09LL));
                 } else {
-                    XLog.INSTANCE.d();
+                    XLog.d();
                     XToast.INSTANCE.show("最多只能设置四个");
                 }
             }

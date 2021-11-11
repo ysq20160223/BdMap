@@ -40,7 +40,7 @@ public class BDInvoke {
 
         } catch (Exception e) {
             showDialog(ctx);
-            XLog.INSTANCE.d(e.toString());
+            XLog.d(e.toString());
         }
     }
 

@@ -41,7 +41,7 @@ public class BDLocalListener implements BDLocationListener {
         localLng = bdLocation.getLongitude();
         localLatLng = new LatLng(localLat, localLng);
 
-        XLog.INSTANCE.d("city: " + bdLocation.getCity() + ", street: " + bdLocation.getStreet());
+        XLog.d("city: " + bdLocation.getCity() + ", street: " + bdLocation.getStreet());
 
         MyLocationData data = new MyLocationData.Builder().accuracy(bdLocation.getRadius())
                 .direction(localOrient).longitude(localLng).latitude(localLat).build();

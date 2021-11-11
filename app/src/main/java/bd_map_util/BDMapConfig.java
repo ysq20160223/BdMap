@@ -41,7 +41,7 @@ public class BDMapConfig {
     public static void showBDMapChild(MapView mapView) {
         // 0:主视图,  1:logo,  2:缩放图标,  3:比例尺 (需等待视图加载后查询)
         for (int i = 0; i < mapView.getChildCount(); i++) {
-            XLog.INSTANCE.d("Child " + i + ":" + mapView.getChildAt(i).toString());
+            XLog.d("Child " + i + ":" + mapView.getChildAt(i).toString());
 
         }
     }

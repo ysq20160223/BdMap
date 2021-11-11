@@ -48,9 +48,9 @@ public class BDTypeTrafficFrag extends BaseLazyFragment {
 
             case R.id.iv_mapTraffic:
                 if (mBdMap.isTrafficEnabled()) {
-                    XLog.INSTANCE.d("关闭实时路况");
+                    XLog.d("关闭实时路况");
                 } else {
-                    XLog.INSTANCE.d("开启实时路况");
+                    XLog.d("开启实时路况");
                 }
                 mBdMap.setTrafficEnabled(!mBdMap.isTrafficEnabled());
                 mIvMapTraffic.setSelected(mBdMap.isTrafficEnabled());
@@ -60,7 +60,7 @@ public class BDTypeTrafficFrag extends BaseLazyFragment {
 //                ((MapActivity) getActivity()).getBdNavFrag().getRouteList().clear();
 //                mBdMap.clear(); //
 //                mMapActivity.getBdDrawFrag().clearItems();
-//                XLog.INSTANCE.d("清空图层数据");
+//                XLog.d("清空图层数据");
                 break;
         }
     }
