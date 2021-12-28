@@ -2,11 +2,16 @@ package fragment;
 
 import android.content.Intent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.as_160213_bd_map.MapActivity;
 import com.as_160213_bd_map.OfflineActivity;
 import com.as_160213_bd_map.R;
+import com.as_160213_bd_map.databinding.BdDrawFragBinding;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -29,8 +34,6 @@ import baidu.mapapi.clusterutil.clustering.ClusterManager;
 import bd_map_util.BDMapAdd;
 import bd_map_util.BDMapUtil;
 import bean.Info;
-import butterknife.BindView;
-import butterknife.OnClick;
 import handler.TraceHandler;
 import utils.TraceRunnable;
 
@@ -38,8 +41,7 @@ import utils.TraceRunnable;
 
 public class BDDrawFrag extends BaseLazyFragment {
 
-    @BindView(R.id.iv_draw_trace_line)
-    ImageView mIvTraceLine;
+    private BdDrawFragBinding bdDrawFragBinding = null;
 
     private MapActivity mMapActivity;
     private MapView mMapView;
@@ -71,44 +73,18 @@ public class BDDrawFrag extends BaseLazyFragment {
     }
 
     @Override
+    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+        super.onCreateViewBind(viewGroup, view);
+        bdDrawFragBinding = (BdDrawFragBinding) getBinding();
+    }
+
+    @Override
     protected void startLoadData(String from) {
         initData();
 
         initEvent();
     }
 
-    @SuppressWarnings("unused")
-    @OnClick({R.id.iv_draw_trace_polygon, R.id.iv_draw_trace_line, R.id.iv_draw_trace_cluster,
-            R.id.iv_draw_trace_offlineMap})
-    void onClick(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.iv_draw_trace_polygon:
-                clearItems();
-                drawGraph();
-                break;
-
-            case R.id.iv_draw_trace_line:
-                mBdMap.setMapStatus(mMapStatusUpdateBefore);
-                addLine();
-                traceRun();
-                break;
-
-            case R.id.iv_draw_trace_cluster:
-                mBdMap.animateMapStatus(mMapStatusUpdateBefore);
-
-                clearItems();
-                addItems();
-
-                mBdMap.animateMapStatus(mMapStatusUpdateAfter);
-                break;
-
-            case R.id.iv_draw_trace_offlineMap:
-                intent = new Intent(getActivity(), OfflineActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
 
     private void addLine() {
         if (mTraceList.size() == 0) {
@@ -125,13 +101,13 @@ public class BDDrawFrag extends BaseLazyFragment {
 
         if (mTraceRunnable.isRun() && !mTraceRunnable.isSuspended()) {
             mTraceRunnable.suspend();
-            mIvTraceLine.setSelected(false);
+            bdDrawFragBinding.ivDrawTraceLine.setSelected(false);
         } else if (mTraceRunnable.isRun() && mTraceRunnable.isSuspended()) {
             mTraceRunnable.resume();
-            mIvTraceLine.setSelected(true);
+            bdDrawFragBinding.ivDrawTraceLine.setSelected(true);
         } else {
             new Thread(mTraceRunnable).start();
-            mIvTraceLine.setSelected(true);
+            bdDrawFragBinding.ivDrawTraceLine.setSelected(true);
         }
 
     }
@@ -231,6 +207,34 @@ public class BDDrawFrag extends BaseLazyFragment {
             }
         });
 
+        if (null != bdDrawFragBinding) {
+            bdDrawFragBinding.ivDrawTracePolygon.setOnClickListener(v -> {
+                clearItems();
+                drawGraph();
+            });
+
+            bdDrawFragBinding.ivDrawTraceLine.setOnClickListener(v -> {
+                addLine();
+                traceRun();
+            });
+
+            bdDrawFragBinding.ivDrawTraceCluster.setOnClickListener(v -> {
+                mBdMap.animateMapStatus(mMapStatusUpdateBefore);
+
+                clearItems();
+                addItems();
+
+                mBdMap.animateMapStatus(mMapStatusUpdateAfter);
+            });
+
+            bdDrawFragBinding.ivDrawTraceOfflineMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), OfflineActivity.class));
+                }
+            });
+        }
+
     }
 
     private void initData() {
@@ -246,9 +250,9 @@ public class BDDrawFrag extends BaseLazyFragment {
 
         mTraceList = new ArrayList<>();
         mBmDesMove = BitmapDescriptorFactory.fromResource(R.mipmap.bm_des_move);
-        mTraceHandler = new TraceHandler(mIvTraceLine);
+        mTraceHandler = new TraceHandler(bdDrawFragBinding.ivDrawTraceLine);
 
-        mClusterManager = new ClusterManager<>(mActivity, mBdMap);
+        mClusterManager = new ClusterManager<>(getActivity(), mBdMap);
 
         mBoundCenter = BDMapUtil.boundCenter(Info.Companion.getList());
 

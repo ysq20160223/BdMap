@@ -6,43 +6,22 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.ListView
 import android.widget.Toast
-import butterknife.BindView
-import butterknife.OnClick
+import androidx.databinding.DataBindingUtil
+import com.as_160213_bd_map.databinding.ActivityOfflineBinding
 import com.baidu.mapapi.SDKInitializer
 import com.baidu.mapapi.map.offline.MKOLUpdateElement
 import com.baidu.mapapi.map.offline.MKOfflineMap
 import com.lib_common_ui.base.BaseActivity
 import com.lib_sdk.utils.XLog
 import lib.toast.XToast
-import utils.AnimatedExpandableListView
 import java.util.*
 
 
 class OfflineActivity : BaseActivity() {
 
-    @JvmField
-    @BindView(R.id.btn_city_list)
-    var mBtnCityList: Button? = null // 城市列表
+    private var binding: ActivityOfflineBinding? = null
 
-    @JvmField
-    @BindView(R.id.btn_download_manage)
-    var mBtnDownloadManage: Button? = null // 下载管理
-
-    @JvmField
-    @BindView(R.id.animate_expandable_list_view)
-    var mListView: AnimatedExpandableListView? = null //
-
-    @JvmField
-    @BindView(R.id.layout_download_manage)
-    var mLayoutDownloadManage: LinearLayout? = null // 下载管理
-
-    @JvmField
-    @BindView(R.id.lv_local_cities)
-    var mListViewLocalCities: ListView? = null // 已下载
 
     // ----------------------------------------------------------------------------
     private var mkOfflineMap: MKOfflineMap? = null
@@ -85,9 +64,9 @@ class OfflineActivity : BaseActivity() {
             return provinceItemList
         }
 
-
-    override fun getContentViewId(): Int {
-        return R.layout.activity_offline
+    override fun setContentViewBefore() {
+        super.setContentViewBefore()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_offline)
     }
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
@@ -111,16 +90,18 @@ class OfflineActivity : BaseActivity() {
     }
 
 
-    @OnClick(R.id.btn_city_list, R.id.btn_download_manage)
-    internal fun onClick(view: View) {
+    fun onClick(view: View) {
         when (view.id) {
             R.id.btn_city_list -> {
-                mInputMethodManager?.hideSoftInputFromWindow(mBtnCityList?.windowToken, 0)
+                mInputMethodManager?.hideSoftInputFromWindow(binding?.btnCityList?.windowToken, 0)
                 clickCityList()
             }
 
             R.id.btn_download_manage -> {
-                mInputMethodManager?.hideSoftInputFromWindow(mBtnDownloadManage?.windowToken, 0)
+                mInputMethodManager?.hideSoftInputFromWindow(
+                    binding?.btnDownloadManage?.windowToken,
+                    0
+                )
                 clickDownloadManager()
             }
         }
@@ -141,13 +122,13 @@ class OfflineActivity : BaseActivity() {
     }
 
     private fun clickCityList() {
-        mListView?.visibility = View.VISIBLE
-        mLayoutDownloadManage?.visibility = View.GONE
+        binding?.animateExpandableListView?.visibility = View.VISIBLE
+        binding?.layoutDownloadManage?.visibility = View.GONE
     }
 
     private fun clickDownloadManager() {
-        mListView?.visibility = View.GONE
-        mLayoutDownloadManage?.visibility = View.VISIBLE
+        binding?.animateExpandableListView?.visibility = View.GONE
+        binding?.layoutDownloadManage?.visibility = View.VISIBLE
     }
 
     private fun updateView() {
@@ -196,15 +177,15 @@ class OfflineActivity : BaseActivity() {
         provinceCityAdp.setOnCallBackListener { this.startDownload(it) }
 
         // 3
-        mListView?.setAdapter(provinceCityAdp)
-        mListView?.setGroupIndicator(null)
+        binding?.animateExpandableListView?.setAdapter(provinceCityAdp)
+        binding?.animateExpandableListView?.setGroupIndicator(null)
 
-        mLayoutDownloadManage?.visibility = View.GONE
+        binding?.layoutDownloadManage?.visibility = View.GONE
 
         //
 
         mLocalMapAdp = LocalMapAdp(getActivity(), mLocalMapList, mkOfflineMap)
-        mListViewLocalCities?.adapter = mLocalMapAdp
+        binding?.lvLocalCities?.adapter = mLocalMapAdp
 
         updateView()
     }

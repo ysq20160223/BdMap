@@ -1,26 +1,26 @@
 package fragment;
 
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.as_160213_bd_map.MapActivity;
 import com.as_160213_bd_map.R;
+import com.as_160213_bd_map.databinding.BdTypeTrafficFragBinding;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.lib_common_ui.base.BaseLazyFragment;
 import com.lib_sdk.utils.XLog;
 
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import dlg_frag.BDTypeDlgFrag;
 
 // Created by Administrator on 2016/7/19.
 
 public class BDTypeTrafficFrag extends BaseLazyFragment {
 
-    @BindView(R.id.iv_mapTraffic)
-    ImageView mIvMapTraffic; // 实时路况
+    private BdTypeTrafficFragBinding bdTypeTrafficFragBinding;
 
     private MapActivity mMapActivity;
     private BaiduMap mBdMap;
@@ -34,34 +34,42 @@ public class BDTypeTrafficFrag extends BaseLazyFragment {
     }
 
     @Override
-    protected void startLoadData(String from) {
-        initData();
+    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+        super.onCreateViewBind(viewGroup, view);
+        bdTypeTrafficFragBinding = (BdTypeTrafficFragBinding) getBinding();
     }
 
+    @Override
+    protected void startLoadData(String from) {
+        initData();
 
-    @OnClick({R.id.iv_mapType, R.id.iv_mapTraffic, R.id.iv_clearRoute})
-    void setOnClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_mapType: // 标准地图 或 卫星地图
-                mapTypeDlgFrag.show(getActivity().getSupportFragmentManager(), "");
-                break;
+        initEvent();
+    }
 
-            case R.id.iv_mapTraffic:
+    private void initEvent() {
+        if (null != bdTypeTrafficFragBinding) {
+            bdTypeTrafficFragBinding.ivMapType.setOnClickListener(v ->
+                    mapTypeDlgFrag.show(getActivity().getSupportFragmentManager(), ""));
+
+            bdTypeTrafficFragBinding.ivMapTraffic.setOnClickListener(v -> {
                 if (mBdMap.isTrafficEnabled()) {
                     XLog.d("关闭实时路况");
                 } else {
                     XLog.d("开启实时路况");
                 }
                 mBdMap.setTrafficEnabled(!mBdMap.isTrafficEnabled());
-                mIvMapTraffic.setSelected(mBdMap.isTrafficEnabled());
-                break;
+                bdTypeTrafficFragBinding.ivMapTraffic.setSelected(mBdMap.isTrafficEnabled());
+            });
 
-            case R.id.iv_clearRoute: // 清除所有 marker
+            bdTypeTrafficFragBinding.ivClearRoute.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                ((MapActivity) getActivity()).getBdNavFrag().getRouteList().clear();
 //                mBdMap.clear(); //
 //                mMapActivity.getBdDrawFrag().clearItems();
 //                XLog.d("清空图层数据");
-                break;
+                }
+            });
         }
     }
 

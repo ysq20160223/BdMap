@@ -12,11 +12,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.as_160213_bd_map.MapActivity;
 import com.as_160213_bd_map.R;
+import com.as_160213_bd_map.databinding.BdNavFragBinding;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -47,7 +52,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import bd_map_util.BDMapAdd;
-import butterknife.OnClick;
 import lib.toast.XToast;
 import navi.DemoGuideActivity;
 import navi.NormalUtils;
@@ -57,6 +61,8 @@ import navi.NormalUtils;
 
 @SuppressWarnings("unused")
 public class BDNavFrag extends BaseLazyFragment {
+
+    private BdNavFragBinding bdNavFragBinding;
 
     private BaiduMap mBdMap;
 
@@ -98,6 +104,12 @@ public class BDNavFrag extends BaseLazyFragment {
     }
 
     @Override
+    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+        super.onCreateViewBind(viewGroup, view);
+        bdNavFragBinding = (BdNavFragBinding) getBinding();
+    }
+
+    @Override
     protected void startLoadData(String from) {
         initView();
 
@@ -109,42 +121,6 @@ public class BDNavFrag extends BaseLazyFragment {
 //            initNavi();
         } else {
             XLog.d("External Storage Not Exist");
-        }
-    }
-
-
-    @OnClick({R.id.iv_my_nav, R.id.iv_my_geo})
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_my_nav: // 开始导航
-                if (mRouteList.size() > 0) {
-
-
-                    // 1, 从5C到深圳北
-//                    routePlanToNavi(geneList(BNRoutePlanNode.CoordinateType.BD09LL));
-
-                    // 2
-                    LatLng latLng = mMapActivity.getBdLocalFrag().getBdLocalListener().getLocalLatLng();
-                    double lon = latLng.longitude;
-                    double lat = latLng.latitude;
-
-                    mStartNode = new BNRoutePlanNode(lon, lat, "s", "ss", BNRoutePlanNode.CoordinateType.BD09LL);
-
-                    mRouteList.add(0, mStartNode);
-                    routePlanToNavi(mRouteList);
-
-//                        invokeNav(lon, lat); // 调用外部导航
-                } else {
-                    XLog.d("长按地图确定目的地");
-                }
-
-
-                break;
-
-            case R.id.iv_my_geo:
-                mProgressDialog.show();
-                mGeoCoder.geocode(new GeoCodeOption().city("深圳市").address("福田区红荔西路7127号"));
-                break;
         }
     }
 
@@ -178,18 +154,18 @@ public class BDNavFrag extends BaseLazyFragment {
                         } else {
                             result = "key校验失败, " + msg;
                         }
-                        Toast.makeText(mActivity, result, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
                         XLog.d(result);
                     }
 
                     @Override
                     public void initStart() {
-                        Toast.makeText(mActivity, "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "百度导航引擎初始化开始", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void initSuccess() {
-                        Toast.makeText(mActivity, "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "百度导航引擎初始化成功", Toast.LENGTH_SHORT).show();
                         hasInitSuccess = true;
                         // 初始化tts
                         initTTS();
@@ -197,7 +173,7 @@ public class BDNavFrag extends BaseLazyFragment {
 
                     @Override
                     public void initFailed(int i) {
-                        Toast.makeText(mActivity, "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "百度导航引擎初始化失败", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -305,23 +281,23 @@ public class BDNavFrag extends BaseLazyFragment {
                     public void handleMessage(Message msg) {
                         switch (msg.what) {
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_START:
-                                Toast.makeText(mActivity, "算路开始", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "算路开始", Toast.LENGTH_SHORT).show();
                                 XLog.d("算路开始");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_SUCCESS:
-                                Toast.makeText(mActivity, "算路成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "算路成功", Toast.LENGTH_SHORT).show();
                                 XLog.d("算路成功");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_FAILED:
-                                Toast.makeText(mActivity, "算路失败", Toast.LENGTH_SHORT)
+                                Toast.makeText(getActivity(), "算路失败", Toast.LENGTH_SHORT)
                                         .show();
                                 XLog.d("算路失败");
                                 break;
 
                             case IBNRoutePlanManager.MSG_NAVI_ROUTE_PLAN_TO_NAVI:
-                                Toast.makeText(mActivity, "算路成功准备进入导航", Toast.LENGTH_SHORT)
+                                Toast.makeText(getActivity(), "算路成功准备进入导航", Toast.LENGTH_SHORT)
                                         .show();
                                 XLog.d("算路成功准备进入导航");
 
@@ -357,23 +333,23 @@ public class BDNavFrag extends BaseLazyFragment {
 
             BDMapAdd.overlay(mBdMap, latLng, mBmDesGeo, null, true, true, 0.5f, 0.1f);
 
-            View v = View.inflate(mActivity, R.layout.info_window, null);
+            View v = View.inflate(getActivity(), R.layout.info_window, null);
             TextView tv = v.findViewById(R.id.tv_infoWindow_title);
             String text = geoCodeResult.getAddress();
             tv.setText(text);
 
-            BDMapAdd.infoWindow(mActivity, mBdMap, latLng, v, null);
+            BDMapAdd.infoWindow(getActivity(), mBdMap, latLng, v, null);
         }
 
         @Override
         public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
             dismissProgressDialog();
 
-            View v = View.inflate(mActivity, R.layout.info_window, null);
+            View v = View.inflate(getActivity(), R.layout.info_window, null);
             TextView tv = v.findViewById(R.id.tv_infoWindow_title);
             tv.setText(reverseGeoCodeResult.getAddress());
 
-            BDMapAdd.infoWindow(mActivity, mBdMap, reverseGeoCodeResult.getLocation(), v, null);
+            BDMapAdd.infoWindow(getActivity(), mBdMap, reverseGeoCodeResult.getLocation(), v, null);
         }
     }
 
@@ -399,44 +375,66 @@ public class BDNavFrag extends BaseLazyFragment {
     }
 
     private void initEvent() {
-        mBdMap.setOnMapLongClickListener(new BaiduMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                if (mRouteList.size() < 4) {
-                    BitmapDescriptor bmDes = mBmDescriptors[mRouteList.size()];
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("position", mRouteList.size());
-                    BDMapAdd.overlay(mBdMap, latLng, bmDes, bundle, true, false, 0.5f, 0.1f);
-                    XLog.d("设置 " + (mRouteList.size() + 1) + " 成功");
-                    XToast.INSTANCE.show("" + latLng);
+        mBdMap.setOnMapLongClickListener(latLng -> {
+            if (mRouteList.size() < 4) {
+                BitmapDescriptor bmDes = mBmDescriptors[mRouteList.size()];
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", mRouteList.size());
+                BDMapAdd.overlay(mBdMap, latLng, bmDes, bundle, true, false, 0.5f, 0.1f);
+                XLog.d("设置 " + (mRouteList.size() + 1) + " 成功");
+                XToast.INSTANCE.show("" + latLng);
 
 
-                    mRouteList.add(new BNRoutePlanNode(latLng.longitude, latLng.latitude, "", "",
-                            BNRoutePlanNode.CoordinateType.BD09LL));
+                mRouteList.add(new BNRoutePlanNode(latLng.longitude, latLng.latitude, "", "",
+                        CoordinateType.BD09LL));
+            } else {
+                XLog.d();
+                XToast.INSTANCE.show("最多只能设置四个");
+            }
+        });
+
+        mBdMap.setOnMarkerClickListener(marker -> {
+            Bundle bundle = marker.getExtraInfo();
+            if (bundle != null) {
+                int position = bundle.getInt("position");
+                BNRoutePlanNode node = mRouteList.get(position);
+                final LatLng latLng = new LatLng(node.getLongitude(), node.getLatitude());
+                mBdMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(latLng), 300);
+
+                //
+                mProgressDialog.show();
+                mGeoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
+            }
+            return true;
+        });
+
+        if (null != bdNavFragBinding) {
+            bdNavFragBinding.ivMyNav.setOnClickListener(v -> {
+                if (mRouteList.size() > 0) {
+                    // 1, 从5C到深圳北
+//                    routePlanToNavi(geneList(BNRoutePlanNode.CoordinateType.BD09LL));
+
+                    // 2
+                    LatLng latLng = mMapActivity.getBdLocalFrag().getBdLocalListener().getLocalLatLng();
+                    double lon = latLng.longitude;
+                    double lat = latLng.latitude;
+
+                    mStartNode = new BNRoutePlanNode(lon, lat, "s", "ss", CoordinateType.BD09LL);
+
+                    mRouteList.add(0, mStartNode);
+                    routePlanToNavi(mRouteList);
+
+//                        invokeNav(lon, lat); // 调用外部导航
                 } else {
-                    XLog.d();
-                    XToast.INSTANCE.show("最多只能设置四个");
+                    XLog.d("长按地图确定目的地");
                 }
-            }
-        });
+            });
 
-        mBdMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(final Marker marker) {
-                Bundle bundle = marker.getExtraInfo();
-                if (bundle != null) {
-                    int position = bundle.getInt("position");
-                    BNRoutePlanNode node = mRouteList.get(position);
-                    final LatLng latLng = new LatLng(node.getLongitude(), node.getLatitude());
-                    mBdMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(latLng), 300);
-
-                    //
-                    mProgressDialog.show();
-                    mGeoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(latLng));
-                }
-                return true;
-            }
-        });
+            bdNavFragBinding.ivMyGeo.setOnClickListener(v -> {
+                mProgressDialog.show();
+                mGeoCoder.geocode(new GeoCodeOption().city("深圳市").address("福田区红荔西路7127号"));
+            });
+        }
 
         mGeoCoder.setOnGetGeoCodeResultListener(new MyOnGetGeoCoderResultListener());
 
@@ -455,7 +453,7 @@ public class BDNavFrag extends BaseLazyFragment {
         mGeoCoder = GeoCoder.newInstance();
         mBmDesGeo = BitmapDescriptorFactory.fromResource(R.mipmap.check_descriptor);
 
-        mProgressDialog = new ProgressDialog(mActivity);
+        mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading");
     }
 

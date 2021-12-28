@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_bd_local_frag"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/iv_bd_local_mapMode"
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_bd_local_frag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/shade_rect"
-        android:src="@mipmap/map_mode_normal" />
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_bd_local_mapLocal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shade_rect"
-        android:src="@drawable/map_location" />
+        <ImageView
+            android:id="@+id/iv_bd_local_mapMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/shade_rect"
+            android:src="@mipmap/map_mode_normal" />
 
-    <!--   android:background="#FFffffff"   -->
-    <!--   android:background="@drawable/shade_rect"   -->
+        <ImageView
+            android:id="@+id/iv_bd_local_mapLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shade_rect"
+            android:src="@drawable/map_location" />
 
-</LinearLayout>
+        <!--   android:background="#FFffffff"   -->
+        <!--   android:background="@drawable/shade_rect"   -->
+
+    </LinearLayout>
+</layout>

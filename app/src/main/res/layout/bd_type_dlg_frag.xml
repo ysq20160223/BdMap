@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:gravity="center"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/iv_mapTypeClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:background="@android:color/white"
-        android:padding="2dp"
-        android:src="@drawable/map_type_close" />
+    <data>
+
+    </data>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_BDType_normal"
-            android:layout_width="0dp"
+            android:id="@+id/iv_mapTypeClose"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:src="@drawable/map_type_normal" />
+            android:layout_gravity="right"
+            android:background="@android:color/white"
+            android:padding="2dp"
+            android:src="@drawable/map_type_close" />
 
-        <ImageView
-            android:id="@+id/iv_BDType_satellite"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:src="@drawable/map_type_satellite" />
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_BDType_normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:src="@drawable/map_type_normal" />
+
+            <ImageView
+                android:id="@+id/iv_BDType_satellite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:src="@drawable/map_type_satellite" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>

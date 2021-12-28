@@ -7,20 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.as_160213_bd_map.R;
+import com.as_160213_bd_map.databinding.OfflineCityItemBinding;
+import com.as_160213_bd_map.databinding.OfflineProvinceItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import utils.AnimatedExpandableListView;
 
 // Created by Administrator on 2016/7/28.
 
 public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     private List<ProvinceItem> groupItemList;
 
@@ -48,9 +49,8 @@ public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandab
         CityHolder childHolder;
         final CityItem cityItem = getChild(groupPosition, childPosition);
         if (convertView == null) {
-            childHolder = new CityHolder();
             convertView = inflater.inflate(R.layout.offline_city_item, parent, false);
-            ButterKnife.bind(childHolder, convertView);
+            childHolder = new CityHolder(convertView);
             convertView.setTag(childHolder);
         } else {
             childHolder = (CityHolder) convertView.getTag();
@@ -60,12 +60,9 @@ public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandab
         String mapSize = "地图 " + cityItem.c_size;
         childHolder.tv_offline_city_mapSize.setText(mapSize);
 
-        childHolder.iv_offline_city_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (callBack != null) {
-                    callBack.download(cityItem.c_id);
-                }
+        childHolder.iv_offline_city_start.setOnClickListener(v -> {
+            if (callBack != null) {
+                callBack.download(cityItem.c_id);
             }
         });
 
@@ -98,9 +95,9 @@ public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandab
         ProvinceHolder groupHolder;
         final ProvinceItem provinceItem = getGroup(groupPosition);
         if (convertView == null) {
-            groupHolder = new ProvinceHolder();
             convertView = inflater.inflate(R.layout.offline_province_item, parent, false);
-            ButterKnife.bind(groupHolder, convertView);
+            groupHolder = new ProvinceHolder(convertView);
+//            ButterKnife.bind(groupHolder, convertView);
             convertView.setTag(groupHolder);
         } else {
             groupHolder = (ProvinceHolder) convertView.getTag();
@@ -116,12 +113,9 @@ public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandab
             groupHolder.tv_offline_province_arrow.setBackgroundResource(R.mipmap.arrow_q_list_right);
         }
 
-        groupHolder.iv_offline_province_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (callBack != null) {
-                    callBack.download(provinceItem.p_id);
-                }
+        groupHolder.iv_offline_province_start.setOnClickListener(v -> {
+            if (callBack != null) {
+                callBack.download(provinceItem.p_id);
             }
         });
 
@@ -152,28 +146,40 @@ public class ProvinceCityAdp extends AnimatedExpandableListView.AnimatedExpandab
     }
 
     static class CityHolder {
-        @BindView(R.id.tv_offline_city_city)
+
         TextView tv_offline_city_city;
 
-        @BindView(R.id.tv_offline_city_mapSize)
         TextView tv_offline_city_mapSize;
 
-        @BindView(R.id.iv_offline_city_start)
         ImageView iv_offline_city_start;
+
+        CityHolder(View view) {
+            OfflineCityItemBinding offlineCityItemBinding = DataBindingUtil.bind(view);
+            if (null != offlineCityItemBinding) {
+                tv_offline_city_city = offlineCityItemBinding.tvOfflineCityCity;
+                tv_offline_city_mapSize = offlineCityItemBinding.tvOfflineCityMapSize;
+                iv_offline_city_start = offlineCityItemBinding.ivOfflineCityStart;
+            }
+        }
     }
 
     static class ProvinceHolder {
-        @BindView(R.id.tv_offline_province_arrow)
+
         ImageView tv_offline_province_arrow;
-
-        @BindView(R.id.tv_offline_province_province)
         TextView tv_offline_province_province;
-
-        @BindView(R.id.tv_offline_province_mapSize)
         TextView tv_offline_province_mapSize;
-
-        @BindView(R.id.iv_offline_province_start)
         ImageView iv_offline_province_start;
+
+        ProvinceHolder(View view) {
+            OfflineProvinceItemBinding offlineProvinceItemBinding = DataBindingUtil.bind(view);
+            if (null != offlineProvinceItemBinding) {
+                tv_offline_province_arrow = offlineProvinceItemBinding.tvOfflineProvinceArrow;
+                tv_offline_province_province = offlineProvinceItemBinding.tvOfflineProvinceProvince;
+                tv_offline_province_mapSize = offlineProvinceItemBinding.tvOfflineProvinceMapSize;
+                iv_offline_province_start = offlineProvinceItemBinding.ivOfflineProvinceStart;
+            }
+        }
+
     }
 
     private CallBack callBack;

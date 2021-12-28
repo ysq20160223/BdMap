@@ -2,11 +2,10 @@ package com.as_160213_bd_map
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
+import androidx.databinding.DataBindingUtil
 import bd_map_util.BDMapConfig
-import butterknife.BindView
+import com.as_160213_bd_map.databinding.ActivityMainBinding
 import com.baidu.mapapi.map.BaiduMap
-import com.baidu.mapapi.map.MapView
 import com.lib_common_ui.base.BaseActivity
 import com.lib_sdk.utils.XLog
 import fragment.*
@@ -20,23 +19,8 @@ import utils.JniUtil
     eNode = new BNRoutePlanNode(114.037553, 22.616874, "", "", coType);
  */
 
-class MapActivity : BaseActivity() {
+open class MapActivity : BaseActivity() {
 
-    @JvmField
-    @BindView(R.id.mv_map_activity)
-    var mMapView: MapView? = null // xml 地图
-
-    @JvmField
-    @BindView(R.id.layout_map_activity_top)
-    var mLayoutTop: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.layout_map_activity_bd_nav)
-    var mLayoutLeftTop: LinearLayout? = null
-
-    @JvmField
-    @BindView(R.id.layout_map_activity_right_top)
-    var mLayoutRightTop: LinearLayout? = null
 
     var mBdMap: BaiduMap? = null
 
@@ -67,10 +51,13 @@ class MapActivity : BaseActivity() {
      */
     var bdDrawFrag: BDDrawFrag? = null
 
+    var binding: ActivityMainBinding? = null
 
-    override fun getContentViewId(): Int {
-        return R.layout.activity_main
+    override fun setContentViewBefore() {
+        super.setContentViewBefore()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
     }
+
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         initView()
@@ -83,12 +70,22 @@ class MapActivity : BaseActivity() {
     private fun initEvent() {
         mBdMap?.setOnMapLoadedCallback { initCompassPosition() }
 
-        mLayoutTop?.post {
-            mLayoutRightTop?.setPadding(0, mLayoutTop?.bottom ?: 0, 0, 0)
-            mLayoutLeftTop?.setPadding(0, mLayoutTop?.bottom ?: 0, 0, 0)
+        binding?.layoutMapActivityTop?.post {
+            binding?.layoutMapActivityRightTop?.setPadding(
+                0,
+                binding?.layoutMapActivityTop?.bottom ?: 0,
+                0,
+                0
+            )
+            binding?.layoutMapActivityBdNav?.setPadding(
+                0,
+                binding?.layoutMapActivityTop?.bottom ?: 0,
+                0,
+                0
+            )
 
-            mLayoutRightTop?.visibility = View.VISIBLE
-            mLayoutLeftTop?.visibility = View.VISIBLE
+            binding?.layoutMapActivityRightTop?.visibility = View.VISIBLE
+            binding?.layoutMapActivityBdNav?.visibility = View.VISIBLE
         }
 
     }
@@ -131,26 +128,26 @@ class MapActivity : BaseActivity() {
     }
 
     private fun initView() {
-        mBdMap = BDMapConfig.getBDMap(mMapView)
-        BDMapConfig.hideChildAt(mMapView)
+        mBdMap = BDMapConfig.getBDMap(binding?.mvMapActivity)
+        BDMapConfig.hideChildAt(binding?.mvMapActivity)
     }
 
     // ------------------------------------------------------------------------------------
     override fun onDestroy() {
         super.onDestroy()
 
-        mMapView?.onDestroy()
+        binding?.mvMapActivity?.onDestroy()
         android.os.Process.killProcess(android.os.Process.myPid())
     }
 
     override fun onResume() {
         super.onResume()
-        mMapView?.onResume()
+        binding?.mvMapActivity?.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        mMapView?.onPause()
+        binding?.mvMapActivity?.onPause()
     }
 
 }

@@ -121,6 +121,10 @@ android {
         compile.exclude group: 'org.jetbrains' , module:'annotations'
     }
 
+    dataBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
@@ -129,9 +133,9 @@ dependencies {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
 
-    api depsLibs.butterknife
-    kapt depsLibs.butterknifecompiler
-//    kapt "com.jakewharton:butterknife-compiler:${depsVersion.butterknifecompiler}"
+    implementation depsLibs.kotlin
+    implementation depsLibs.appcompact
+    implementation depsLibs.constraint
 
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation files('libs/httpmime-4.1.2.jar')
@@ -143,5 +147,8 @@ dependencies {
     api project(':lib_common_ui')
     api project(':lib_toast')
 //    api project(':lib_image_loader')
+
+    implementation "androidx.fragment:fragment:1.3.4@aar"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
 }

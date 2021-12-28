@@ -1,12 +1,17 @@
 package fragment;
 
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.as_160213_bd_map.R;
+import com.as_160213_bd_map.databinding.BdZoomFragBinding;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapView;
 import com.lib_common_ui.base.BaseLazyFragment;
 
-
-import butterknife.BindView;
 
 import utils.BDMapZoom;
 
@@ -15,9 +20,7 @@ import utils.BDMapZoom;
 
 public class BDZoomFrag extends BaseLazyFragment {
 
-    // 右下角部分
-    @BindView(R.id.bdMapZoom)
-    BDMapZoom mBdMapZoom; // 缩放控件
+    private BdZoomFragBinding bdZoomFragBinding;
 
     private BaiduMap mBdMap;
 
@@ -27,10 +30,16 @@ public class BDZoomFrag extends BaseLazyFragment {
     }
 
     @Override
+    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+        super.onCreateViewBind(viewGroup, view);
+        bdZoomFragBinding = (BdZoomFragBinding) getBinding();
+    }
+
+    @Override
     protected void startLoadData(String from) {
         initData();
 
-        mBdMapZoom.setBDMap(mBdMap); // 设置百度地图控件
+        bdZoomFragBinding.bdMapZoom.setBDMap(mBdMap); // 设置百度地图控件
     }
 
     private void initData() {
@@ -38,7 +47,7 @@ public class BDZoomFrag extends BaseLazyFragment {
     }
 
     public BDMapZoom getBdMapZoom() {
-        return mBdMapZoom;
+        return bdZoomFragBinding.bdMapZoom;
     }
 
 
