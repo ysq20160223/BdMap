@@ -10,6 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 @SuppressWarnings("unused")
 public class FragmentUtil {
 
+    public static void replace(FragmentManager fm, int id, Fragment add) {
+        fm.beginTransaction().replace(id, add).commit();
+    }
+
     public static void add(FragmentManager fm, int id, Fragment add) {
         fm.beginTransaction().add(id, add).commit();
     }

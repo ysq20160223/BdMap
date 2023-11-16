@@ -3,22 +3,22 @@
 apply from: file("../Android_Lib/lib_sdk/config.gradle")
 
 buildscript {
-    ext.kotlin_version = '1.5.20'
-//    ext.gradle_version = "4.0.1" // Entry name 'res/drawable/notification_bg_low.xml' collided
-    ext.greendao_version = "3.3.0"
 
-    ext.gradle_version = "4.0.1"
+//    ext.gradle_version = "4.0.1" // Entry name 'res/drawable/notification_bg_low.xml' collided
+
+    ext.kotlin_version = '1.7.20'
+    ext.gradle_version = "7.2.0"
 
     repositories {
         google()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        jcenter()
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+//        jcenter()
         mavenCentral()
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
-        classpath "org.greenrobot:greendao-gradle-plugin:${greendao_version}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -29,8 +29,8 @@ allprojects {
 
     repositories {
         google()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        jcenter { url "http://jcenter.bintray.com/" }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        mavenCentral { url "https://jcenter.bintray.com/" }
         mavenCentral()
         maven { url "https://jitpack.io" }
     }

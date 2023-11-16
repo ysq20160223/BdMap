@@ -1,29 +1,28 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'java'
+plugins {
+    id 'com.android.application'
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
 
 apply from: file("../../Android_Lib/lib_sdk/config.gradle")
 
 
 android {
-    compileSdkVersion android.compileSdkVersion
-    buildToolsVersion android.buildToolsVersion
+    namespace "com.as_160213_bd_map"
+    compileSdk android.compileSdk
 
     defaultConfig {
-        applicationId "com.as_160213_bd_map"
+        minSdk android.minSdk
+        targetSdk android.targetSdk
 
-        minSdkVersion android.minSdkVersion
-        compileSdkVersion android.compileSdkVersion
 
         versionCode 1
         versionName "1.0"
 
         multiDexEnabled true
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
-
 
         //
         ndk {
@@ -35,11 +34,11 @@ android {
         }
 
         // 应用添加
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-            }
-        }
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                includeCompileClasspath = true
+//            }
+//        }
 
         // 使用Cmake工具
         externalNativeBuild {
@@ -54,7 +53,10 @@ android {
     }
 
     configurations {
-        all*.exclude  module: 'DefaultItemAnimator$2'  //去除重复依赖库
+        all*.exclude  module: 'DefaultItemAnimator$2'  // 去除重复依赖库
+
+//        cleanedAnnotations
+//        compile.exclude group: 'org.jetbrains' , module:'annotations'
     }
 
     dexOptions {
@@ -104,8 +106,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
 
@@ -118,7 +120,8 @@ android {
 
     configurations {
         cleanedAnnotations
-        compile.exclude group: 'org.jetbrains' , module:'annotations'
+        implementation.exclude group: 'org.jetbrains' , module:'annotations'
+        implementation.exclude group: 'com.intellij' , module:'annotations'
     }
 
     dataBinding {

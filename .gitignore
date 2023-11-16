@@ -9,3 +9,5 @@ captures
 gradlew*
 README.md
 ._.DS_Store
+/gradle/
+*.hprof
