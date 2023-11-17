@@ -49,6 +49,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import bd_map_util.BDMapAdd;
 import lib.toast.XToast;
@@ -59,9 +60,8 @@ import navi.NormalUtils;
 // Created by y on 2016/7/20.
 
 @SuppressWarnings("unused")
-public class BDNavFrag extends BaseLazyFragment {
+public class BDNavFrag extends BaseLazyFragment<BdNavFragBinding> {
 
-    private BdNavFragBinding bdNavFragBinding;
 
     private BaiduMap mBdMap;
 
@@ -73,9 +73,9 @@ public class BDNavFrag extends BaseLazyFragment {
 
     public static List<Activity> activityList = new LinkedList<>(); // 添加导航 Activity
 
-    private List<BNRoutePlanNode> mRouteList = new ArrayList<>();
+    private final List<BNRoutePlanNode> mRouteList = new ArrayList<>();
 
-    private BitmapDescriptor[] mBmDescriptors = new BitmapDescriptor[4];
+    private final BitmapDescriptor[] mBmDescriptors = new BitmapDescriptor[4];
 
     private BitmapDescriptor mBmDesGeo;
 
@@ -102,11 +102,6 @@ public class BDNavFrag extends BaseLazyFragment {
         return R.layout.bd_nav_frag;
     }
 
-    @Override
-    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
-        super.onCreateViewBind(viewGroup, view);
-        bdNavFragBinding = (BdNavFragBinding) getBinding();
-    }
 
     @Override
     protected void startLoadData(String from) {
@@ -124,9 +119,9 @@ public class BDNavFrag extends BaseLazyFragment {
     }
 
     private boolean hasBasePhoneAuth() {
-        PackageManager pm = getActivity().getPackageManager();
+        PackageManager pm = requireActivity().getPackageManager();
         for (String auth : authBaseArr) {
-            if (pm.checkPermission(auth, getActivity().getPackageName()) != PackageManager.PERMISSION_GRANTED) {
+            if (pm.checkPermission(auth, requireActivity().getPackageName()) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
@@ -187,7 +182,7 @@ public class BDNavFrag extends BaseLazyFragment {
 
     private void initTTS() {
         // 使用内置TTS
-        BaiduNaviManagerFactory.getTTSManager().initTTS(getActivity().getApplicationContext(),
+        BaiduNaviManagerFactory.getTTSManager().initTTS(requireActivity().getApplicationContext(),
                 getSdcardDir(), APP_FOLDER_NAME, NormalUtils.getTTSAppID());
 
         // 不使用内置TTS
@@ -407,14 +402,14 @@ public class BDNavFrag extends BaseLazyFragment {
             return true;
         });
 
-        if (null != bdNavFragBinding) {
-            bdNavFragBinding.ivMyNav.setOnClickListener(v -> {
+        if (null != getBinding()) {
+            getBinding().ivMyNav.setOnClickListener(v -> {
                 if (mRouteList.size() > 0) {
                     // 1, 从5C到深圳北
 //                    routePlanToNavi(geneList(BNRoutePlanNode.CoordinateType.BD09LL));
 
                     // 2
-                    LatLng latLng = mMapActivity.getBdLocalFrag().getBdLocalListener().getLocalLatLng();
+                    LatLng latLng = Objects.requireNonNull(mMapActivity.getBdLocalFrag()).getBdLocalListener().getLocalLatLng();
                     double lon = latLng.longitude;
                     double lat = latLng.latitude;
 
@@ -429,7 +424,7 @@ public class BDNavFrag extends BaseLazyFragment {
                 }
             });
 
-            bdNavFragBinding.ivMyGeo.setOnClickListener(v -> {
+            getBinding().ivMyGeo.setOnClickListener(v -> {
                 mProgressDialog.show();
                 mGeoCoder.geocode(new GeoCodeOption().city("深圳市").address("福田区红荔西路7127号"));
             });
@@ -443,7 +438,7 @@ public class BDNavFrag extends BaseLazyFragment {
 
         activityList.add(getActivity());
 
-        int resId[] = {R.mipmap.route_descriptor_01, R.mipmap.route_descriptor_02,
+        int[] resId = {R.mipmap.route_descriptor_01, R.mipmap.route_descriptor_02,
                 R.mipmap.route_descriptor_03, R.mipmap.route_descriptor_04};
         for (int i = 0; i < mBmDescriptors.length; i++) {
             mBmDescriptors[i] = BitmapDescriptorFactory.fromResource(resId[i]);
@@ -458,7 +453,7 @@ public class BDNavFrag extends BaseLazyFragment {
 
     private void initView() {
         mMapActivity = (MapActivity) getActivity();
-        mBdMap = ((MapView) getActivity().findViewById(R.id.mv_map_activity)).getMap();
+        mBdMap = ((MapView) requireActivity().findViewById(R.id.mv_map_activity)).getMap();
     }
 
 //    private void invokeNav(double lon, double lat) {

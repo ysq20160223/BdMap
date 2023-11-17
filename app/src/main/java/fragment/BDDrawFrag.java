@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.as_160213_bd_map.MapActivity;
 import com.as_160213_bd_map.OfflineActivity;
 import com.as_160213_bd_map.R;
@@ -26,6 +23,7 @@ import com.lib_sdk.utils.XLog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import baidu.mapapi.clusterutil.clustering.Cluster;
 import baidu.mapapi.clusterutil.clustering.ClusterItem;
@@ -38,12 +36,9 @@ import utils.TraceRunnable;
 
 // Created by Administrator on 2016/10/24.
 
-public class BDDrawFrag extends BaseLazyFragment {
-
-    private BdDrawFragBinding bdDrawFragBinding = null;
+public class BDDrawFrag extends BaseLazyFragment<BdDrawFragBinding> {
 
     private MapActivity mMapActivity;
-    private MapView mMapView;
     private BaiduMap mBdMap;
 
     private BitmapDescriptor mBmDes;
@@ -60,7 +55,7 @@ public class BDDrawFrag extends BaseLazyFragment {
 
     private MapStatusUpdate mMapStatusUpdateBefore;
     private MapStatusUpdate mMapStatusUpdateAfter;
-    private List<MyClusterItem> mMyClusterItemList = new ArrayList<>();
+    private final List<MyClusterItem> mMyClusterItemList = new ArrayList<>();
 
     private LatLng mBoundCenter;
     private TraceRunnable mTraceRunnable;
@@ -72,9 +67,8 @@ public class BDDrawFrag extends BaseLazyFragment {
     }
 
     @Override
-    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+    public void onCreateViewBind(ViewGroup viewGroup, View view) {
         super.onCreateViewBind(viewGroup, view);
-        bdDrawFragBinding = (BdDrawFragBinding) getBinding();
     }
 
     @Override
@@ -100,13 +94,19 @@ public class BDDrawFrag extends BaseLazyFragment {
 
         if (mTraceRunnable.isRun() && !mTraceRunnable.isSuspended()) {
             mTraceRunnable.suspend();
-            bdDrawFragBinding.ivDrawTraceLine.setSelected(false);
+            if (null != getBinding()) {
+                getBinding().ivDrawTraceLine.setSelected(false);
+            }
         } else if (mTraceRunnable.isRun() && mTraceRunnable.isSuspended()) {
             mTraceRunnable.resume();
-            bdDrawFragBinding.ivDrawTraceLine.setSelected(true);
+            if (null != getBinding()) {
+                getBinding().ivDrawTraceLine.setSelected(true);
+            }
         } else {
             new Thread(mTraceRunnable).start();
-            bdDrawFragBinding.ivDrawTraceLine.setSelected(true);
+            if (null != getBinding()) {
+                getBinding().ivDrawTraceLine.setSelected(true);
+            }
         }
 
     }
@@ -134,9 +134,9 @@ public class BDDrawFrag extends BaseLazyFragment {
     /**
      * 每个Marker点，包含Marker点坐标以及图标
      */
-    public class MyClusterItem implements ClusterItem {
+    public static class MyClusterItem implements ClusterItem {
 
-        private LatLng mLatLng;
+        private final LatLng mLatLng;
 
         MyClusterItem(LatLng latLng) {
             this.mLatLng = latLng;
@@ -197,27 +197,27 @@ public class BDDrawFrag extends BaseLazyFragment {
 
             @Override
             public void onMapStatusChange(MapStatus mapStatus) {
-                mMapActivity.getBdLocalFrag().setMapStatusChange(mapStatus);
+                Objects.requireNonNull(mMapActivity.getBdLocalFrag()).setMapStatusChange(mapStatus);
             }
 
             @Override
             public void onMapStatusChangeFinish(MapStatus mapStatus) {
-                mMapActivity.getBdZoomFrag().getBdMapZoom().updateZoom();
+                Objects.requireNonNull(mMapActivity.getBdZoomFrag()).getBdMapZoom().updateZoom();
             }
         });
 
-        if (null != bdDrawFragBinding) {
-            bdDrawFragBinding.ivDrawTracePolygon.setOnClickListener(v -> {
+        if (null != getBinding()) {
+            getBinding().ivDrawTracePolygon.setOnClickListener(v -> {
                 clearItems();
                 drawGraph();
             });
 
-            bdDrawFragBinding.ivDrawTraceLine.setOnClickListener(v -> {
+            getBinding().ivDrawTraceLine.setOnClickListener(v -> {
                 addLine();
                 traceRun();
             });
 
-            bdDrawFragBinding.ivDrawTraceCluster.setOnClickListener(v -> {
+            getBinding().ivDrawTraceCluster.setOnClickListener(v -> {
                 mBdMap.animateMapStatus(mMapStatusUpdateBefore);
 
                 clearItems();
@@ -226,21 +226,21 @@ public class BDDrawFrag extends BaseLazyFragment {
                 mBdMap.animateMapStatus(mMapStatusUpdateAfter);
             });
 
-            bdDrawFragBinding.ivDrawTraceOfflineMap.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), OfflineActivity.class));
-                }
-            });
+            getBinding().ivDrawTraceOfflineMap.setOnClickListener(v -> startActivity(new Intent(getActivity(), OfflineActivity.class)));
         }
 
     }
 
     private void initData() {
         mMapActivity = (MapActivity) getActivity();
-        mMapView = getActivity().findViewById(R.id.mv_map_activity);
+        MapView mMapView = null;
+        if (mMapActivity != null) {
+            mMapView = mMapActivity.findViewById(R.id.mv_map_activity);
+        }
 
-        mBdMap = mMapView.getMap();
+        if (mMapView != null) {
+            mBdMap = mMapView.getMap();
+        }
         mBmDes = BitmapDescriptorFactory.fromResource(R.mipmap.check_descriptor);
 
         mRedTexture = BitmapDescriptorFactory.fromAsset("ic_red_arrow.png");
@@ -249,7 +249,9 @@ public class BDDrawFrag extends BaseLazyFragment {
 
         mTraceList = new ArrayList<>();
         mBmDesMove = BitmapDescriptorFactory.fromResource(R.mipmap.bm_des_move);
-        mTraceHandler = new TraceHandler(bdDrawFragBinding.ivDrawTraceLine);
+        if (null != getBinding()) {
+            mTraceHandler = new TraceHandler(getBinding().ivDrawTraceLine);
+        }
 
         mClusterManager = new ClusterManager<>(getActivity(), mBdMap);
 

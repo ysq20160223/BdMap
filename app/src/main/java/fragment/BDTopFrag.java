@@ -5,17 +5,12 @@ package fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.as_160213_bd_map.R;
 import com.as_160213_bd_map.databinding.BdTopFragBinding;
 import com.lib_common_ui.base.BaseLazyFragment;
 
 
-public class BDTopFrag extends BaseLazyFragment {
-
-    private BdTopFragBinding bdTopFragBinding;
+public class BDTopFrag extends BaseLazyFragment<BdTopFragBinding> {
 
 
     @Override
@@ -24,9 +19,8 @@ public class BDTopFrag extends BaseLazyFragment {
     }
 
     @Override
-    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+    public void onCreateViewBind(ViewGroup viewGroup, View view) {
         super.onCreateViewBind(viewGroup, view);
-        bdTopFragBinding = (BdTopFragBinding) getBinding();
 
     }
 
@@ -34,7 +28,6 @@ public class BDTopFrag extends BaseLazyFragment {
     protected void startLoadData(String from) {
         initData();
     }
-
 
 
     private void initData() {

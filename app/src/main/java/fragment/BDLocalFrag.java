@@ -3,9 +3,6 @@ package fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.as_160213_bd_map.R;
 import com.as_160213_bd_map.databinding.BdLocalFragBinding;
 import com.baidu.location.LocationClient;
@@ -19,6 +16,8 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.model.LatLng;
 import com.lib_common_ui.base.BaseLazyFragment;
 
+import java.util.Objects;
+
 import bd_map_util.BDMapConfig;
 import utils.BDLocalListener;
 import utils.FormatUtil;
@@ -26,9 +25,7 @@ import utils.OrientListener;
 
 // Created by Administrator on 2016/7/20.
 
-public class BDLocalFrag extends BaseLazyFragment {
-
-    private BdLocalFragBinding bdLocalFragBinding = null;
+public class BDLocalFrag extends BaseLazyFragment<BdLocalFragBinding> {
 
     private BaiduMap mBdMap;
 
@@ -49,9 +46,8 @@ public class BDLocalFrag extends BaseLazyFragment {
     }
 
     @Override
-    public void onCreateViewBind(@Nullable ViewGroup viewGroup, @NonNull View view) {
+    public void onCreateViewBind(ViewGroup viewGroup, View view) {
         super.onCreateViewBind(viewGroup, view);
-        bdLocalFragBinding = (BdLocalFragBinding) getBinding();
     }
 
     @Override
@@ -68,7 +64,7 @@ public class BDLocalFrag extends BaseLazyFragment {
     }
 
     private void setLocation(boolean isFirstLocal) {
-        bdLocalFragBinding.ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_normal);
+        Objects.requireNonNull(getBinding()).ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_normal);
         LatLng latLng = new LatLng(mBdLocalListener.getLocalLat(), mBdLocalListener.getLocalLng());
 
         if (isFirstLocal) { // 15.0f 约 500m - 17.0f 约 100m
@@ -87,7 +83,9 @@ public class BDLocalFrag extends BaseLazyFragment {
         String localLat = FormatUtil.format(mBdLocalListener.getLocalLat(), "#.0000");
         String localLon = FormatUtil.format(mBdLocalListener.getLocalLng(), "#.0000");
 
-        bdLocalFragBinding.ivBdLocalMapLocal.setSelected(localLat.equals(tempLat) && localLon.equals(tempLon));
+        if (null != getBinding()) {
+            getBinding().ivBdLocalMapLocal.setSelected(localLat.equals(tempLat) && localLon.equals(tempLon));
+        }
     }
 
     private void initEvent() {
@@ -96,25 +94,25 @@ public class BDLocalFrag extends BaseLazyFragment {
             mBdLocalListener.setLocalOrient(mLocalOrient);
         });
 
-        if (null != bdLocalFragBinding) {
-            bdLocalFragBinding.ivBdLocalMapLocal.setOnClickListener(v -> setLocation(false));
+        if (null != getBinding()) {
+            getBinding().ivBdLocalMapLocal.setOnClickListener(v -> setLocation(false));
 
-            bdLocalFragBinding.ivBdLocalMapMode.setOnClickListener(v -> {
+            getBinding().ivBdLocalMapMode.setOnClickListener(v -> {
                 switch (mLocalMode) {
                     case NORMAL:
-                        bdLocalFragBinding.ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_compass);
+                        getBinding().ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_compass);
                         mLocalMode = MyLocationConfiguration.LocationMode.COMPASS;
                         setMyLocationConfiguration();
                         break;
 
                     case COMPASS:
-                        bdLocalFragBinding.ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_follow);
+                        getBinding().ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_follow);
                         mLocalMode = MyLocationConfiguration.LocationMode.FOLLOWING;
                         setMyLocationConfiguration();
                         break;
 
                     case FOLLOWING:
-                        bdLocalFragBinding.ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_normal);
+                        getBinding().ivBdLocalMapMode.setImageResource(R.mipmap.map_mode_normal);
                         mLocalMode = MyLocationConfiguration.LocationMode.NORMAL;
                         setMyLocationConfiguration();
 
@@ -129,7 +127,7 @@ public class BDLocalFrag extends BaseLazyFragment {
 
     private void initData() {
 
-        MapView mMapView = (MapView) getActivity().findViewById(R.id.mv_map_activity);
+        MapView mMapView = requireActivity().findViewById(R.id.mv_map_activity);
         mBdMap = mMapView.getMap();
 
         mBmDesLocal = BitmapDescriptorFactory.fromResource(R.mipmap.map_bm_des_local);
@@ -145,7 +143,9 @@ public class BDLocalFrag extends BaseLazyFragment {
         mLocalClient = new LocationClient(getActivity(), BDMapConfig.getLocationClientOption());
         mLocalClient.registerLocationListener(mBdLocalListener); // 注册定位监听
 
-        bdLocalFragBinding.ivBdLocalMapLocal.setSelected(true);
+        if (null != getBinding()) {
+            getBinding().ivBdLocalMapLocal.setSelected(true);
+        }
     }
 
 
